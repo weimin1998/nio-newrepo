@@ -12,30 +12,31 @@ import static com.weimin.part01_buffer.ByteBufferUtil.debugRead;
 
 public class SocketChannel02_NonBlock_Server {
     public static void main(String[] args) throws IOException {
-
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
 
+        serverSocketChannel.configureBlocking(false);// 非阻塞
         serverSocketChannel.bind(new InetSocketAddress(9527));
 
         ByteBuffer buffer = ByteBuffer.allocate(16);
 
-
-        // 使用一个集合，存放所有的连接
-        List<SocketChannel> channels = new ArrayList<>();
+        List<SocketChannel> channels = new ArrayList<SocketChannel>();
 
         while (true) {
-            System.out.println("connecting...");
-            SocketChannel socketChannel = serverSocketChannel.accept(); // 阻塞
-            System.out.println("connected..." + socketChannel);
-            channels.add(socketChannel);
+            SocketChannel socketChannel = serverSocketChannel.accept(); // 受serverSocketChannel.configureBlocking的影响
+            if (socketChannel != null) {
+                System.out.println("connected..." + socketChannel);
+                socketChannel.configureBlocking(false); // 非阻塞
+                channels.add(socketChannel);
+            }
 
             for (SocketChannel channel : channels) {
-                System.out.println("before read.." + channel);
-                channel.read(buffer);// 阻塞
-                buffer.flip();
-                debugRead(buffer);
-                buffer.clear();
-                System.out.println("after read.." + channel);
+                int read = channel.read(buffer);// 受socketChannel.configureBlocking的影响
+                if (read > 0) {
+                    buffer.flip();
+                    debugRead(buffer);
+                    buffer.clear();
+                    System.out.println("after read.." + channel);
+                }
             }
         }
     }

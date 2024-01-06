@@ -10,11 +10,14 @@ import java.util.List;
 
 import static com.weimin.part01_buffer.ByteBufferUtil.debugRead;
 
+// 服务器单线程处理请求
 public class SocketChannel01_Block_Server {
     public static void main(String[] args) throws IOException {
 
+        // 创建服务器对象
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
 
+        // 绑定监听端口
         serverSocketChannel.bind(new InetSocketAddress(9527));
 
         ByteBuffer buffer = ByteBuffer.allocate(16);
@@ -25,13 +28,16 @@ public class SocketChannel01_Block_Server {
 
         while (true) {
             System.out.println("connecting...");
-            SocketChannel socketChannel = serverSocketChannel.accept(); // 阻塞
+            // 建立与客户端的连接
+            SocketChannel socketChannel = serverSocketChannel.accept(); // 阻塞，线程停止运行
             System.out.println("connected..." + socketChannel);
+            // 将这些连接放到集合里，统一操作
             channels.add(socketChannel);
 
             for (SocketChannel channel : channels) {
                 System.out.println("before read.." + channel);
-                channel.read(buffer);// 阻塞
+                // 读取客户端发送的数据
+                channel.read(buffer);// 阻塞，线程停止运行
                 buffer.flip();
                 debugRead(buffer);
                 buffer.clear();
