@@ -13,6 +13,8 @@ import static com.weimin.part01_buffer.ByteBufferUtil.debugAll;
 
 public class Selector03_MultiThread {
     public static void main(String[] args) throws IOException {
+        // 主线程处理 accept事件
+        // 读写操作交给worker
         Thread.currentThread().setName("Boss");
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.bind(new InetSocketAddress(9527));
