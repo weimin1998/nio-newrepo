@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 
-public class SocketChannel01_Block_Client {
+public class SocketChannel01_Client {
     public static void main(String[] args) throws IOException {
         SocketChannel socketChannel = SocketChannel.open();
 

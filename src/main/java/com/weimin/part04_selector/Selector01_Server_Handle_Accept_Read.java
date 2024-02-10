@@ -62,8 +62,9 @@ public class Selector01_Server_Handle_Accept_Read {
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
                 iterator.remove();
-
+                // 区分事件类型
                 if (selectionKey.isAcceptable()) {
+                    // 这里的ServerSocketChannel 就是上面的 serverSocketChannel
                     ServerSocketChannel channel = (ServerSocketChannel) selectionKey.channel();
                     SocketChannel socketChannel = channel.accept();
                     socketChannel.configureBlocking(false);
