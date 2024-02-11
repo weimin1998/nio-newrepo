@@ -1,4 +1,4 @@
-package com.weimin.part05_netty;
+package com.weimin.part05_hello_netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandlerContext;
