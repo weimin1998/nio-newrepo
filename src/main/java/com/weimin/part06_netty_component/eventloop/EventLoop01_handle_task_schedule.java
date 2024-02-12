@@ -1,7 +1,6 @@
-package com.weimin.part06_netty_component;
+package com.weimin.part06_netty_component.eventloop;
 
 import com.weimin.Logger;
-import io.netty.channel.DefaultEventLoopGroup;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.util.NettyRuntime;
@@ -16,6 +15,7 @@ public class EventLoop01_handle_task_schedule {
         EventLoopGroup nioEventLoopGroup = new NioEventLoopGroup(2);// 可以处理io事件，普通任务，定时任务
         //EventLoopGroup defaultEventLoopGroup = new DefaultEventLoopGroup();// 可以处理普通任务，定时任务
 
+        // 获取当前计算机的cpu核心数
         System.out.println(NettyRuntime.availableProcessors());
 
         System.out.println(nioEventLoopGroup.next());

@@ -1,4 +1,4 @@
-package com.weimin.part06_netty_component;
+package com.weimin.part06_netty_component.eventloop;
 
 import com.weimin.Logger;
 import io.netty.bootstrap.ServerBootstrap;
@@ -19,7 +19,7 @@ public class EventLoop02_handle_io {
         new ServerBootstrap()
                 .group(new NioEventLoopGroup())
                 .channel(NioServerSocketChannel.class)
-                .handler(new ChannelInitializer<NioSocketChannel>() {
+                .childHandler(new ChannelInitializer<NioSocketChannel>() {
 
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
