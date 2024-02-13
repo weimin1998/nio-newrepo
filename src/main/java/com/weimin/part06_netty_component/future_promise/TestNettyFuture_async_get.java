@@ -1,4 +1,4 @@
-package com.weimin.part06_netty_component.future;
+package com.weimin.part06_netty_component.future_promise;
 
 import com.weimin.Logger;
 import io.netty.channel.EventLoop;

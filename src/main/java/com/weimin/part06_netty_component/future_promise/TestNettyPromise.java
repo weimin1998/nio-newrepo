@@ -1,7 +1,6 @@
-package com.weimin.part06_netty_component.promise;
+package com.weimin.part06_netty_component.future_promise;
 
 import com.weimin.Logger;
-import com.weimin.part06_netty_component.future.TestNettyFuture_async_get;
 import io.netty.channel.EventLoop;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.util.concurrent.DefaultPromise;
