@@ -10,6 +10,11 @@ import static io.netty.util.internal.StringUtil.NEWLINE;
 
 public class Logger {
 
+    private static final String INFO = "INFO";
+    private static final String DEBUG = "DEBUG";
+    private static final String ERROR = "ERROR";
+    private static final String WARN = "WARN";
+
     private final Class clazz;
 
     public Logger(Class clazz) {
@@ -17,20 +22,29 @@ public class Logger {
     }
 
     public void info(Object msg) {
-        System.out.println(now() + " INFO ---- [" + Thread.currentThread().getName() + "] " + clazz.getName() + " : " + msg);
+        doLog(INFO, msg);
     }
 
     public void error(Object msg) {
-        System.out.println(now() + " ERROR ---- [" + Thread.currentThread().getName() + "] " + clazz.getName() + " : " + msg);
+        doLog(ERROR, msg);
     }
 
-    public void debug(Object msg) {
-        System.out.println(now() + " DEBUG ---- [" + Thread.currentThread().getName() + "] " + clazz.getName() + " : " + msg);
+    public void debug(Object msg, Object... obj) {
+        doLog(DEBUG, msg, obj);
     }
+
     private String now() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date now = new Date();
         return dateFormat.format(now);
+    }
+
+    private void doLog(String level, Object msg, Object... obj) {
+        String result = msg.toString();
+        for (Object o : obj) {
+            result = result.replace("{}", o.toString());
+        }
+        System.out.println(now() + " " + level + " ---- [" + Thread.currentThread().getName() + "] " + clazz.getName() + " : " + result);
     }
 
     public static void log(ByteBuf buffer) {
