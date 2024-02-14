@@ -15,8 +15,8 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  * 短链接的方式
  * 可以解决粘包，但是不能解决半包
  */
-public class HelloWorldClient_1 {
-    static final Logger log = new Logger(HelloWorldClient_1.class);
+public class Client_1 {
+    static final Logger log = new Logger(Client_1.class);
 
     public static void main(String[] args) {
         for (int i = 0; i < 16; i++) {

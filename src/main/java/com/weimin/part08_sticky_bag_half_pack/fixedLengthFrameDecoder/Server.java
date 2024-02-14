@@ -1,4 +1,4 @@
-package com.weimin.part08_sticky_bag_half_pack.short_connecttin;
+package com.weimin.part08_sticky_bag_half_pack.fixedLengthFrameDecoder;
 
 import com.weimin.Logger;
 import io.netty.bootstrap.ServerBootstrap;
@@ -6,11 +6,12 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.FixedLengthFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
-public class HelloWorldServer {
-    static final Logger log = new Logger(HelloWorldServer.class);
+public class Server {
+    static final Logger log = new Logger(Server.class);
 
     void start() {
         NioEventLoopGroup boss = new NioEventLoopGroup(1);
@@ -19,17 +20,11 @@ public class HelloWorldServer {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.channel(NioServerSocketChannel.class);
             serverBootstrap.group(boss, worker);
-            // 在两端建立连接时，操作系统会协商窗口的大小
-
-            // 调整系统的接收缓冲区的大小
-            // serverBootstrap.option(ChannelOption.SO_RCVBUF, 10);// 修改客户端缓冲区
-
-            // 调整netty的接收缓冲区（ByteBuf）
-            // 最少是16
-            serverBootstrap.childOption(ChannelOption.RCVBUF_ALLOCATOR, new AdaptiveRecvByteBufAllocator(16, 16, 16));
+            serverBootstrap.option(ChannelOption.SO_RCVBUF, 10);// 修改客户端缓冲区
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
+                    ch.pipeline().addLast(new FixedLengthFrameDecoder(8));
                     ch.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
                     ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {
                         @Override
@@ -61,6 +56,6 @@ public class HelloWorldServer {
     }
 
     public static void main(String[] args) {
-        new HelloWorldServer().start();
+        new Server().start();
     }
 }
