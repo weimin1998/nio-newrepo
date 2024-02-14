@@ -1,4 +1,4 @@
-package com.weimin.part05_hello_netty;
+package com.weimin.part09_protocol;
 
 import com.weimin.Logger;
 import io.netty.bootstrap.ServerBootstrap;
