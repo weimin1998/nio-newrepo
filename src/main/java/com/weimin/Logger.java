@@ -42,7 +42,8 @@ public class Logger {
     private void doLog(String level, Object msg, Object... obj) {
         String result = msg.toString();
         for (Object o : obj) {
-            result = result.replace("{}", o.toString());
+            result = result.replaceFirst("[{]", o.toString());
+            result = result.replaceFirst("[}]", "");
         }
         System.out.println(now() + " " + level + " ---- [" + Thread.currentThread().getName() + "] " + clazz.getName() + " : " + result);
     }
