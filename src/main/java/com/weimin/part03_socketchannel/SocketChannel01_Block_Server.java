@@ -42,7 +42,7 @@ public class SocketChannel01_Block_Server {
                 channel.read(buffer);// 阻塞，线程停止运行
                 buffer.flip();
                 debugRead(buffer);
-                // 每处理完一个连接，清空buffer，以便处理下个连接的数据
+                // 每读完一个channel的数据，清空buffer，以便处理下个channel
                 buffer.clear();
                 System.out.println("after read.." + channel);
             }
