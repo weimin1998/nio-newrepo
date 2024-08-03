@@ -20,12 +20,14 @@ public class SocketChannel01_Block_Server {
         // 绑定监听端口
         serverSocketChannel.bind(new InetSocketAddress(9527));
 
+        // 服务器缓冲区
         ByteBuffer buffer = ByteBuffer.allocate(16);
 
 
         // 使用一个集合，存放所有的连接
         List<SocketChannel> channels = new ArrayList<>();
 
+        // 服务器要一直保持运行，不停接收客户端的连接
         while (true) {
             System.out.println("connecting...");
             // 建立与客户端的连接
@@ -40,6 +42,7 @@ public class SocketChannel01_Block_Server {
                 channel.read(buffer);// 阻塞，线程停止运行
                 buffer.flip();
                 debugRead(buffer);
+                // 每处理完一个连接，清空buffer，以便处理下个连接的数据
                 buffer.clear();
                 System.out.println("after read.." + channel);
             }
