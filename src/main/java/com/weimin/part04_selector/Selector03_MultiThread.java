@@ -26,7 +26,7 @@ public class Selector03_MultiThread {
 
         Worker[] workers = new Worker[Runtime.getRuntime().availableProcessors()];
         for (int i = 0; i < workers.length; i++) {
-            workers[i] = new Worker("word-" + i);
+            workers[i] = new Worker("worker-" + i);
         }
 
         AtomicInteger count = new AtomicInteger();
@@ -43,6 +43,7 @@ public class Selector03_MultiThread {
                 if (key.isAcceptable()) {
                     SocketChannel socketChannel = serverSocketChannel.accept();
                     socketChannel.configureBlocking(false);
+                    System.out.println("客户端请求连接：" + socketChannel);
 
 
                     workers[count.getAndIncrement() % workers.length].register(socketChannel);
