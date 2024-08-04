@@ -12,6 +12,7 @@ import java.util.Set;
 
 import static com.weimin.part01_buffer.ByteBufferUtil.debugAll;
 
+// 这个class是最终的版本，处理了所有的问题
 public class Selector01_Server_Handle_Accept_Read {
     private static void split(ByteBuffer source) {
         // 先切换读模式；
@@ -74,9 +75,11 @@ public class Selector01_Server_Handle_Accept_Read {
                     SocketChannel socketChannel = channel.accept();
                     socketChannel.configureBlocking(false);
 
-                    // 每个channel使用单独的buffer
+                    // 每个channel使用单独的buffer，这个buffer的生命周期和channel绑定
                     ByteBuffer buffer = ByteBuffer.allocate(16);
+                    // socketChannel也注册到selector
                     socketChannel.register(selector, SelectionKey.OP_READ, buffer);
+                    System.out.println("客户端请求连接建立：" + socketChannel);
                 } else if (selectionKey.isReadable()) {
                     try {
                         SocketChannel channel = (SocketChannel) selectionKey.channel();
@@ -85,21 +88,24 @@ public class Selector01_Server_Handle_Accept_Read {
 
                         // read等于-1，代表客户端正常断开
                         if (read == -1) {
+                            System.out.println("客户端正常关闭连接："+selectionKey.channel());
                             selectionKey.cancel();
                         } else {
                             split(buffer);
                             if (buffer.position() == buffer.limit()) {
-                                System.out.println("test");
+                                // 扩容
                                 ByteBuffer newBuffer = ByteBuffer.allocate(buffer.capacity() * 2);
                                 buffer.flip();
                                 newBuffer.put(buffer);
                                 debugAll(newBuffer);
+                                // 扩容后，再附到channel上
                                 selectionKey.attach(newBuffer);
                             }
 
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
+                        System.out.println("客户端强制断开连接："+selectionKey.channel());
                         // 发生异常，代表客户端强制断开
                         selectionKey.cancel();
                     }
