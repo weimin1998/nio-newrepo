@@ -13,9 +13,12 @@ public class HelloServer {
     public static void main(String[] args) {
         // 1。启动类，负责组装netty组件，启动服务器
         new ServerBootstrap()
-                // selector thread组
+                // (selector + thread) 组
                 .group(new NioEventLoopGroup())
                 // 选择服务器的ServerSocketChannel实现
+                // NioServerSocketChannel：基于nio selector
+                // EpollServerSocketChannel：基于linux的 epoll
+                // KQueueServerSocketChannel：基于mac的
                 .channel(NioServerSocketChannel.class)
                 // boss负责处理连接，worker负责处理读写，决定了worker能执行哪些操作(handler)
                 .childHandler(
