@@ -30,9 +30,11 @@ public class ChannelTest02_Client_listener {
                 .connect(new InetSocketAddress("127.0.0.1", 8080));
 
 
+        // 异步处理结果
+        // 这个方法将 '获取channel并且使用channel发送数据的工作' 交给nio线程来做，不是main线程来做了。
         channelFuture.addListener(new ChannelFutureListener() {
             @Override
-            //
+            // 当连接真正建立好后，调用下面的方法
             public void operationComplete(ChannelFuture future) throws Exception {
                 Channel channel = future.channel();
                 logger.info(channel);

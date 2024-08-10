@@ -29,6 +29,7 @@ public class ChannelTest01_Client_sync {
 
         // 1.使用sync方法同步等待连接建立完成
         channelFuture.sync();
+        // 2.sync这个方法会阻塞住当前线程，直到nio线程连接建立完毕。
         Channel channel = channelFuture.channel();
         logger.info(channel);
         channel.writeAndFlush("hello");

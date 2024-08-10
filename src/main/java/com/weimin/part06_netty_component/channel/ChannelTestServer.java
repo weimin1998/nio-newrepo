@@ -9,6 +9,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class ChannelTestServer {
 
@@ -28,7 +29,8 @@ public class ChannelTestServer {
                             @Override
                             public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                                 ByteBuf byteBuf = (ByteBuf) msg;
-                                logger.info(byteBuf.toString(Charset.defaultCharset()));
+                                // logger.info(byteBuf.toString(Charset.defaultCharset()));
+                                logger.info(byteBuf.toString(StandardCharsets.UTF_8));
 
                                 // 将消息传递给下一个handler
                                 ctx.fireChannelRead(msg);
@@ -37,7 +39,8 @@ public class ChannelTestServer {
                             @Override
                             public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                                 ByteBuf byteBuf = (ByteBuf) msg;
-                                logger.info(byteBuf.toString(Charset.defaultCharset()));
+                                // logger.info(byteBuf.toString(Charset.defaultCharset()));
+                                logger.info(byteBuf.toString(StandardCharsets.UTF_8));
                             }
                         });
                     }
