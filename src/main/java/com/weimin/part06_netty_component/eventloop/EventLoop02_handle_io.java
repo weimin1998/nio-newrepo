@@ -11,6 +11,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class EventLoop02_handle_io {
 
@@ -27,8 +28,10 @@ public class EventLoop02_handle_io {
                             @Override                                          //ByteBuf
                             public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                                 ByteBuf byteBuf = (ByteBuf) msg;
+                                // 将ByteBuf类型转为String，字节转字符串，肯定要指明字符集
                                 // 指定字符集，最好显示的指定，不要使用默认的，万一客户端和服务器的字符集不一致，就会有问题
-                                logger.info(byteBuf.toString(Charset.defaultCharset()));
+                                // logger.info(byteBuf.toString(Charset.defaultCharset()));
+                                logger.info(byteBuf.toString(StandardCharsets.UTF_8));
                             }
                         });
                     }

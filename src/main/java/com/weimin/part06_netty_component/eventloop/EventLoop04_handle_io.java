@@ -9,6 +9,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class EventLoop04_handle_io {
 
@@ -32,16 +33,18 @@ public class EventLoop04_handle_io {
                             @Override                                          //ByteBuf
                             public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                                 ByteBuf byteBuf = (ByteBuf) msg;
-                                logger.info(byteBuf.toString(Charset.defaultCharset()));
+                                //logger.info(byteBuf.toString(Charset.defaultCharset()));
+                                logger.info(byteBuf.toString(StandardCharsets.UTF_8));
 
-                                // 将消息传递给下一个handler
+                                // handler处理完消息后，要将消息传递给下一个handler处理
                                 ctx.fireChannelRead(msg);
                             }
                         }).addLast(defaultEventLoopGroup, "handler2", new ChannelInboundHandlerAdapter() {
                             @Override                                          //ByteBuf
                             public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                                 ByteBuf byteBuf = (ByteBuf) msg;
-                                logger.info(byteBuf.toString(Charset.defaultCharset()));
+                                //logger.info(byteBuf.toString(Charset.defaultCharset()));
+                                logger.info(byteBuf.toString(StandardCharsets.UTF_8));
                             }
                         });
                     }

@@ -28,7 +28,7 @@ public class EventLoopTestClient {
         ChannelFuture future = channelFuture.sync();
         Channel channel = future.channel();
         logger.info(channel.toString());
-        System.out.println("break");
+        System.out.println("break");// 断点打在这里，然后手动发数据，断点类型注意为Thread
 //        channel.writeAndFlush("hello");
 //        channel.writeAndFlush("world");
 //        channel.writeAndFlush("I'm client!");

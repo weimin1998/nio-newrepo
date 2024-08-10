@@ -8,6 +8,7 @@ import io.netty.util.NettyRuntime;
 import java.util.concurrent.TimeUnit;
 
 // EventLoop 相当于前面的worker
+// EventLoop,普通任务，定时任务
 public class EventLoop01_handle_task_schedule {
     private static final Logger logger = new Logger(EventLoop01_handle_task_schedule.class);
 
@@ -18,10 +19,11 @@ public class EventLoop01_handle_task_schedule {
         // 获取当前计算机的cpu核心数
         System.out.println(NettyRuntime.availableProcessors());
 
-        System.out.println(nioEventLoopGroup.next());
-        System.out.println(nioEventLoopGroup.next());
-        System.out.println(nioEventLoopGroup.next());
-        System.out.println(nioEventLoopGroup.next());
+        // 获取下一个eventloop，当前eventLoopGroup中，只有两个
+        System.out.println(nioEventLoopGroup.next());//获取第一个
+        System.out.println(nioEventLoopGroup.next());//获取第二个
+        System.out.println(nioEventLoopGroup.next());//获取第一个
+        System.out.println(nioEventLoopGroup.next());//获取第二个
 
         // 执行普通任务
         nioEventLoopGroup.next().submit(() -> logger.info("OK"));
