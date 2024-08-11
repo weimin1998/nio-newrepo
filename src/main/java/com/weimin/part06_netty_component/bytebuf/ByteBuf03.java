@@ -4,16 +4,15 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 
 import static com.weimin.Logger.log;
-
-public class ByteBuf01 {
+// add VM options
+// -Dio.netty.allocator.type=unpooled
+public class ByteBuf03 {
     public static void main(String[] args) {
-        // 默认初始容量 256，默认就是直接内存
-        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer();
+        // 默认初始容量 256
+        ByteBuf buffer = ByteBufAllocator.DEFAULT.heapBuffer();
 
-        //ByteBuf directBuffer = ByteBufAllocator.DEFAULT.directBuffer();
-
-        // class io.netty.buffer.PooledUnsafeDirectByteBuf
-        // 默认是 池化、直接内存
+        // class io.netty.buffer.UnpooledByteBufAllocator$InstrumentedUnpooledUnsafeHeapByteBuf
+        // 非池化、堆内存
         System.out.println(buffer.getClass());
 
         log(buffer);

@@ -7,14 +7,22 @@ import static com.weimin.Logger.log;
 
 public class ByteBuf02 {
     public static void main(String[] args) {
-        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer();
+        // 默认初始容量 256
+        ByteBuf buffer = ByteBufAllocator.DEFAULT.heapBuffer();
+
+        // class io.netty.buffer.PooledUnsafeHeapByteBuf
+        // 池化、堆内存
+        System.out.println(buffer.getClass());
 
         log(buffer);
-        // 大端写入
-        // buffer.writeInt(5);
+        StringBuilder stringBuilder = new StringBuilder();
 
-        // 小端写入
-        buffer.writeIntLE(5);
+        for (int i = 0; i < 300; i++) {
+            stringBuilder.append("a");
+        }
+
+        // 可以动态扩容
+        buffer.writeBytes(stringBuilder.toString().getBytes());
 
         log(buffer);
     }
