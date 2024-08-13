@@ -28,6 +28,8 @@ public class HelloWorldClient {
                         // 会在连接channel建立后，触发active
                         @Override
                         public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                            // active事件发生，代表连接建立成功，此时客户端可以向服务器端发送数据
+                            // 以前那种，sync方法之后，发生数据也行；
                             log.debug("sending...");
                             for (int i = 0; i < 10; i++) {
                                 ByteBuf buffer = ctx.alloc().buffer();
